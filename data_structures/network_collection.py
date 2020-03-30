@@ -1,16 +1,17 @@
 from data_structures.entry import Entry
 from itertools import filterfalse
 import ipaddress
+import logging
 
 def is_valid_ip(net):
     def predicate(e):
         try:
             ip = ipaddress.ip_address(e.address)
             if not ip in net:
-                print("ip {} not in network {}".format(e.address,net))
+                logging.warning("ip {} not in network {}".format(e.address,net))
                 return True
         except (ValueError, ipaddress.AddressValueError):
-            print("invalid ip {} in network {}".format(e.address,net))
+            logging.warning("invalid ip {} in network {}".format(e.address,net))
             return True
         return False
     return predicate

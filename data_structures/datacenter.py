@@ -1,16 +1,16 @@
 from data_structures.cluster import Cluster
 from itertools import filterfalse
 import re
+import logging
 
 def is_valid_cluster(name):
     r = re.compile(name[0:3].upper() + '-\\d{1,3}')
     def predicate(c):
         if not r.fullmatch(c.name):
-            print("removing {} from {}".format(c.name,name))
+            logging.warning("removing {} from {}".format(c.name,name))
             return True
         return False
     return predicate
-
 
 class Datacenter:
     def __init__(self, name, cluster_dict):
