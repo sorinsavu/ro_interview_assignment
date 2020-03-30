@@ -44,6 +44,7 @@ def main():
         for c in d.clusters:
             for n in c.networks:
                 n.remove_invalid_records()
+                n.sort_records()
     print(datacenters)
 
 
