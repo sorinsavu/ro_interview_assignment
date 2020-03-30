@@ -1,5 +1,19 @@
 from data_structures.entry import Entry
+from itertools import filterfalse
 import ipaddress
+
+def is_valid_ip(net):
+    def predicate(e):
+        try:
+            ip = ipaddress.ip_address(e.address)
+            if not ip in net:
+                print("ip {} not in network {}".format(e.address,net))
+                return True
+        except (ValueError, ipaddress.AddressValueError):
+            print("invalid ip {} in network {}".format(e.address,net))
+            return True
+        return False
+    return predicate
 
 class NetworkCollection:
     def __init__(self, ipv4_network, raw_entry_list):
@@ -16,8 +30,7 @@ class NetworkCollection:
         """
         Removes invalid objects from the entries list.
         """
-
-        pass
+        self.entries[:] = filterfalse(is_valid_ip(self.ipv4_network),self.entries)
 
     def sort_records(self):
         """

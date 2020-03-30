@@ -39,7 +39,13 @@ def main():
         for key, value in data.items()
     ]
     print(datacenters)
-    pass  # the rest of your logic here
+    for d in datacenters:
+        d.remove_invalid_clusters()
+        for c in d.clusters:
+            for n in c.networks:
+                n.remove_invalid_records()
+    print(datacenters)
+
 
 
 if __name__ == '__main__':
