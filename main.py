@@ -1,8 +1,10 @@
 from data_structures.datacenter import Datacenter
 import requests
 from time import sleep
+import logging
 
 URL = "http://www.mocky.io/v2/5e539b332e00007c002dacbe"
+#URL = "http://www.mocky.io/v2/5e81ea2b2f00000d002fb6d2"
 
 
 def get_data(url, max_retries=5, delay_between_retries=1):
@@ -19,17 +21,18 @@ def get_data(url, max_retries=5, delay_between_retries=1):
     """
     retry = 1
     while retry < max_retries:
-        r = requests.get(URL)
+        r = requests.get(url)
         if (r.status_code == 200):
             return r.json()
         retry = retry + 1
+        logging.warning('error fetching {} retrying({})'.format(url,retry))
         sleep(delay_between_retries)
-    pass
+
 def main():
     """
     Main entry to our program.
     """
-
+    logging.basicConfig(filename='main.log', level = logging.DEBUG)
     data = get_data(URL)
 
     if not data:
